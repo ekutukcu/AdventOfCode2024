@@ -1,5 +1,7 @@
 
 #include "days.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char ** argv)
 {
@@ -13,10 +15,13 @@ int main(int argc, char ** argv)
     switch(day_number)
     {
         case 1:
-            day01();
+            day01("input_files/day01.txt");
             break;
         case 2:
-            day02();
+            day02("input_files/day02.txt");
+            break;
+        case 3:
+            day03("input_files/day03.txt");
             break;
         default:
             printf("Day %d not implemented.\n", day_number);

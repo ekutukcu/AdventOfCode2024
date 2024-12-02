@@ -7,9 +7,9 @@
 #include "days.h"
 
 
-int day01()
+int day01(char * file_name)
 {
-    FILE *input_file = fopen("input01.txt", "r");
+    FILE *input_file = fopen(file_name, "r");
     if (input_file == NULL)
     {
         perror("Error: could not open file.");

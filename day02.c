@@ -63,16 +63,9 @@ bool is_line_valid(int line_numbers[], int num_count)
 
 const int MAX_NUMBERS_PER_LINE = 10;
 
-int day02()
+int day02(char * file_name)
 {
-    FILE *input_file = fopen("input02.txt", "r");
-    if (input_file == NULL)
-    {
-        printf("Could not open file\n");
-        return 1;
-    }
-
-    char *file_input = read_file("input02.txt");
+    char *file_input = read_file(file_name);
 
     char *line = strtok(file_input, "\n");
     int safeCount1 = 0;
