@@ -35,10 +35,38 @@ struct hash_table
 struct hash_table *hash_table_create(int min_capacity)
 {
     struct hash_table *dict = malloc(sizeof(struct hash_table));
+    if(!dict)
+    {
+        return NULL;
+    }
+
     dict->key_size = (int)floor(log2(min_capacity))+1;
-    dict->size = (int)pow(2,dict->key_size);;
+    dict->size = (int)pow(2,dict->key_size);
+
     dict->entries = (struct hash_table_entry **)calloc(dict->size, sizeof(struct hash_table_entry *));
+    if(!dict->entries)
+    {
+        free(dict);
+        return NULL;
+    }
+    
     return dict;
+}
+
+void hash_table_delete(struct hash_table* dict)
+{
+    for(int i=0;i<dict->size;i++)
+    {
+        struct hash_table_entry * next_entry = dict->entries[i];
+        while(next_entry != NULL)
+        {
+            struct hash_table_entry *temp = next_entry;
+            next_entry = next_entry->next;
+            free(temp);
+        }
+    }
+    free(dict->entries);
+    free(dict);
 }
 
 struct hash_table_entry *hash_table_lookup(struct hash_table *dict, int key)
