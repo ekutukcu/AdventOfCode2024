@@ -24,3 +24,10 @@ char *read_file(const char *file_name)
 
     return buffer;
 }
+
+int compare_ints(const void *a, const void *b)
+{
+    int value_a = *(int *)a;
+    int value_b = *(int *)b;
+    return value_a - value_b;
+}

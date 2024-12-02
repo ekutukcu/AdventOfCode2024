@@ -3,13 +3,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-int compare_ints(const void *a, const void *b)
-{
-    int value_a = *(int *)a;
-    int value_b = *(int *)b;
-    return value_a - value_b;
-}
-
 const unsigned int ALPHA = 2654435769; // 2^32 (-1 + sqrt(5)) / 2
 int hash(int value, int hash_table_size)
 {
@@ -49,7 +42,7 @@ struct hash_table *hash_table_create(int min_capacity)
         free(dict);
         return NULL;
     }
-    
+
     return dict;
 }
 
