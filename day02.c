@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 #include "util.h"
+#include "days.h"
 
 bool is_line_valid_no_removal(int line_numbers[], int num_count)
 {
@@ -62,7 +63,7 @@ bool is_line_valid(int line_numbers[], int num_count)
 
 const int MAX_NUMBERS_PER_LINE = 10;
 
-int main()
+int day02()
 {
     FILE *input_file = fopen("input02.txt", "r");
     if (input_file == NULL)

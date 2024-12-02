@@ -4,9 +4,10 @@
 #include <math.h>
 #include "hash_table.h"
 #include "util.h"
+#include "days.h"
 
 
-int main()
+int day01()
 {
     FILE *input_file = fopen("input01.txt", "r");
     if (input_file == NULL)
