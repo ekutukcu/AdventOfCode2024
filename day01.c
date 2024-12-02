@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "util.h"
+#include "hash_table.h"
 
 
 int main()
