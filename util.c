@@ -1,6 +1,7 @@
 #include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char *read_file(const char *file_name)
 {
@@ -30,4 +31,18 @@ int compare_ints(const void *a, const void *b)
     int value_a = *(int *)a;
     int value_b = *(int *)b;
     return value_a - value_b;
+}
+
+int count_lines(const char * text)
+{
+    int total_length = strlen(text);
+    int line_count = 0;
+    for(int i=0;i<total_length;i++)
+    {
+        if(text[i]=='\n')
+        {
+            line_count++;
+        }
+    }
+    return line_count;
 }
