@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
 project(AdventOfCode2024 C)
-add_executable(AdventOfCode2024 main.c days.h day01.c day02.c day03.c day04.c day05.c util.h util.c days.h hash_table.h hash_table.c)
+add_executable(AdventOfCode2024 main.c days.h day01.c day02.c day03.c day04.c day05.c day06.c util.h util.c days.h hash_table.h hash_table.c)
 target_link_libraries(AdventOfCode2024 m)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")

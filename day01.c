@@ -67,25 +67,28 @@ int day01(char * file_name)
     struct hash_table *list2_dict = hash_table_create(read_count);
     for (int i = 0; i < read_count; i++)
     {
-        struct hash_table_entry *found = hash_table_lookup(list2_dict, list2[i]);
+        hash_table_entry *found = hash_table_lookup(list2_dict, list2[i]);
+        int * ptr_to_val = malloc(sizeof(int));
         if (found == NULL)
         {
-            hash_table_insert(list2_dict, list2[i], 1);
+            *ptr_to_val=1;
         }
         else
         {
+            *ptr_to_val=*((int*)found->value) + 1;
             hash_table_insert(list2_dict, list2[i], found->value + 1);
         }
+        hash_table_insert(list2_dict, list2[i], ptr_to_val);
     }
 
     int similarity_score = 0;
     for (int i = 0; i < read_count; i++)
     {
         int value = list1[i];
-        struct hash_table_entry *found = hash_table_lookup(list2_dict, value);
+        hash_table_entry *found = hash_table_lookup(list2_dict, value);
         if (found != NULL)
         {
-            similarity_score += value * found->value;
+            similarity_score += value * (*(int*)found->value);
         }
     }
     printf("Similarity score: %d", similarity_score);

@@ -35,11 +35,17 @@ int compare_ints(const void *a, const void *b)
 
 int count_lines(const char * text)
 {
+    return count_chars(text, '\n');
+}
+
+
+int count_chars(const char * text, char to_count)
+{
     int total_length = strlen(text);
-    int line_count = 0;
+    int line_count = 1;
     for(int i=0;i<total_length;i++)
     {
-        if(text[i]=='\n')
+        if(text[i]==to_count)
         {
             line_count++;
         }
