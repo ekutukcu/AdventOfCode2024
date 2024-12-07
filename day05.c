@@ -45,20 +45,68 @@ typedef struct rule_set
     int rules[MAX_RULE_COUNT];
 } rule_set;
 
+void move_before(int numbers[100], int new_index, int original_index)
+{
+    if(new_index>original_index)
+    {
+        printf("New index must be before old index");
+        exit(1);
+    }
+    int temp = numbers[original_index];
+    for(int i=original_index-1; i>=new_index;i--)
+    {
+        numbers[i+1]=numbers[i];
+    }
+    numbers[new_index]=temp;
+
+}
+
+int find_number_index(int numbers[100], int numbers_count, int to_find)
+{
+    for(int i=0;i<numbers_count;i++)
+    {
+        if(numbers[i]==to_find)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void position_number_correctly(int numbers[100], int numbers_count, hash_table * rule_set_hash_table, int index)
+{
+    int number = numbers[index];
+    hash_table_entry* found_rules_entry = hash_table_lookup(rule_set_hash_table, number);
+    if(found_rules_entry!=NULL)
+    {
+        rule_set * rules = found_rules_entry->value;
+        for(int i=0;i<rules->count;i++)
+        {
+            int number_ahead = rules->rules[i];
+            int new_index = find_number_index(numbers, numbers_count, number_ahead);
+            if(new_index<index)
+            {
+               move_before(numbers, new_index, index);
+            }
+        }
+    }
+
+}
+
 int sort_line_and_find_middle(int numbers[100], int numbers_count, hash_table * rule_set_hash_table)
 {
     int sorted_numbers[100];
     int sorted_numbers_index = 0;
-    for(int i=numbers_count-1;i>=0;i++)
+    bool moved = false;
+    while(moved)
     {
-        for(int j=numbers_count-1;j>=0;j++)
+        for(int j=numbers_count-1;j>=0;j--)
         {
             int number = numbers[j];
             hash_table_entry* found_rules_entry = hash_table_lookup(rule_set_hash_table, number);
             if(found_rules_entry==NULL)
             {
-                sorted_numbers[i]=number;
-
+                continue;
             }
             else
             {
@@ -66,13 +114,16 @@ int sort_line_and_find_middle(int numbers[100], int numbers_count, hash_table * 
                 for(int k=0;k<rules->count;k++)
                 {
                     int before = rules->rules[k];
+                    position_number_correctly(numbers, numbers_count, rule_set_hash_table, j);
                 }
             }
 
         }
 
     }
-    return 0;
+    int middle_index = (numbers_count - 1) / 2;
+    int middle_number = numbers[middle_index];
+    return middle_number;
 } 
 
 int day05(char *file_name)
@@ -158,17 +209,25 @@ int day05(char *file_name)
         }
         else
         {
+
             incorrect_num_sum+=sort_line_and_find_middle(numbers, numbers_count, rule_set_hash_table);
+            printf("After sorting:");
+            for(int i=0;i<numbers_count;i++)
+            {
+                printf("%d,", numbers[i]);
+            }
+            putchar('\n');
         }
         test_line = strtok(NULL, "\n");
         line_num++;
     }
     printf("Correct number sum: %d \n", correct_num_sum);
+    printf("Incorrect number sum: %d \n",incorrect_num_sum);
 
-    test_line = strtok(test_lines, "\n");
-    for(int i=0; i<incorrect_numbers_count;i++)
-    {
-        printf("Incorrect: %d\n",incorrect_numbers[i]);
-    }
+    //test_line = strtok(test_lines, "\n");
+    //for(int i=0; i<incorrect_numbers_count;i++)
+    //{
+    //    printf("Incorrect: %d\n",incorrect_numbers[i]);
+    //}
     return 0;
 }

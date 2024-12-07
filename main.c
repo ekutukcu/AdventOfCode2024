@@ -32,6 +32,9 @@ int main(int argc, char ** argv)
         case 6:
             day06("input_files/day06.txt");
             break;
+        case 7:
+            day07("input_files/day07.txt");
+            break;
         default:
             printf("Day %d not implemented.\n", day_number);
             return 1;

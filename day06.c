@@ -115,7 +115,7 @@ void move_in_direction(enum direction dir, int *x, int *y)
 }
 
 bool walk_to_end(char grid[GRID_SIZE][GRID_SIZE], bool visited[GRID_SIZE][GRID_SIZE],
-    int x, int y)
+                 int x, int y)
 {
     // init
     enum direction current_direction = up;
@@ -159,12 +159,8 @@ bool walk_to_end(char grid[GRID_SIZE][GRID_SIZE], bool visited[GRID_SIZE][GRID_S
     return true;
 }
 
-int day06(char *file_name)
+void init_grid(char *file_input, char grid[GRID_SIZE][GRID_SIZE], bool visited[GRID_SIZE][GRID_SIZE], int *x, int *y)
 {
-    char *file_input = read_file(file_name);
-    char grid[GRID_SIZE][GRID_SIZE];
-    bool visited[GRID_SIZE][GRID_SIZE];
-    int x, y;
     for (int i = 0; i < GRID_SIZE; i++)
     {
         for (int j = 0; j < GRID_SIZE; j++)
@@ -173,16 +169,29 @@ int day06(char *file_name)
             grid[i][j] = file_input[i * (1 + GRID_SIZE) + j];
             if (grid[i][j] == '^')
             {
-                x = j;
-                y = i;
+                *x = j;
+                *y = i;
             }
 
             visited[i][j] = false;
         }
     }
+}
+
+int day06(char *file_name)
+{
+    char *file_input = read_file(file_name);
+    char grid[GRID_SIZE][GRID_SIZE];
+    bool visited[GRID_SIZE][GRID_SIZE];
+    int x, y;
+    init_grid(file_input, grid, visited, &x, &y);
     print_grid(grid);
 
-    walk_to_end(grid, visited, x,y);
+    if(!walk_to_end(grid, visited, x, y))
+    {
+        printf("ERROR: could not walk to end of grid.");
+        exit(1);
+    }
 
     int step_count = 0;
     for (int i = 0; i < GRID_SIZE; i++)
@@ -198,18 +207,18 @@ int day06(char *file_name)
     printf("Moves: %d, Position (%d,%d)\n", step_count, x, y);
 
     int loop_count = 0;
-    for(int i=0;i<GRID_SIZE;i++)
+    for (int i = 0; i < GRID_SIZE; i++)
     {
         for (int j = 0; j < GRID_SIZE; j++)
         {
-            if(grid[i][j]=='.')
+            if (grid[i][j] == '.')
             {
-                grid[i][j]='#';
-                if(!walk_to_end(grid, visited, x,y))
+                grid[i][j] = '#';
+                if (!walk_to_end(grid, visited, x, y))
                 {
                     loop_count++;
                 }
-                grid[i][j]='.';
+                grid[i][j] = '.';
             }
         }
     }
